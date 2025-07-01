@@ -44,7 +44,7 @@ use App\Models\Admin\Inventory\MobilDinas;
 use App\Models\Admin\Inventory\MotorDinas;
 use App\Models\Admin\Inventory\Television;
 use App\Models\Admin\MasterData\PopIconPlus;
-
+use App\Http\Controllers\Export\LaptopExportController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -177,6 +177,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('cetak-laporan-pdf', [ReportController::class, 'exportpdf'])->name('cetak-laporan-pdf');
     Route::get('cetak-laporan-xls', [ReportController::class, 'exportxls'])->name('cetak-laporan-xls');
+    Route::get('laptops/export/excel', [LaptopExportController::class, 'exportExcel'])->name('laptops.export.excel');
+    Route::get('laptops/export/pdf', [LaptopExportController::class, 'exportPdf'])->name('laptops.export.pdf');
 
 
 });
