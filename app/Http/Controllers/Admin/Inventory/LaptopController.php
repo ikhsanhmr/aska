@@ -33,11 +33,29 @@ class LaptopController extends Controller
 
     }
 
-
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.inventory.laptops.index',  ['datas' => $this->laptop->getAllData()]);
+        // 1. Mulai query
+        $query = $this->laptop->with('getDeviceBrands', 'region');
+
+        // 2. Periksa parameter 'kd_region' dari URL
+        if ($request->filled('kd_region')) {
+            
+            // 3. Filter berdasarkan kolom 'kd_region' dengan nilai dari request
+            $query->where('kd_region', $request->kd_region);
+        }
+
+        // 4. Ambil data
+        $datas = $query->get();
+        $regions = $this->region->getAllData();
+
+        // 5. Kirim ke view
+        return view('admin.inventory.laptops.index', compact('datas', 'regions'));
     }
+    // public function index()
+    // {
+    //     return view('admin.inventory.laptops.index',  ['datas' => $this->laptop->getAllData()]);
+    // }
 
 
     public function create()
