@@ -28,9 +28,18 @@ class ComputerController extends Controller
 
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.inventory.computers.index', ['datas' => $this->computer->getAllData()]);
+        $query = $this->computer->with('getDeviceBrands', 'getVendor', 'region');
+
+        if ($request->filled('kd_region')) {
+            $query->where('kd_region', $request->kd_region);
+        }
+
+        $datas = $query->get();
+        $regions = $this->region->getAllData();
+
+        return view('admin.inventory.computers.index', compact('datas', 'regions'));
     }
 
 

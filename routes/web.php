@@ -180,6 +180,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('laptops/export/excel', [LaptopExportController::class, 'exportExcel'])->name('laptops.export.excel');
     Route::get('laptops/export/pdf', [LaptopExportController::class, 'exportPdf'])->name('laptops.export.pdf');
 
+    Route::get('computers/export/excel', [\App\Http\Controllers\Export\ComputerExportController::class, 'exportExcel'])->name('computers.export.excel');
+    Route::get('computers/export/pdf', [\App\Http\Controllers\Export\ComputerExportController::class, 'exportPdf'])->name('computers.export.pdf');
+
 
 });
 
