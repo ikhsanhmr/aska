@@ -179,6 +179,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('cetak-laporan-xls', [ReportController::class, 'exportxls'])->name('cetak-laporan-xls');
     Route::get('laptops/export/excel', [LaptopExportController::class, 'exportExcel'])->name('laptops.export.excel');
     Route::get('laptops/export/pdf', [LaptopExportController::class, 'exportPdf'])->name('laptops.export.pdf');
+    Route::get('monitors/export/excel', [App\Http\Controllers\Export\MonitorExportController::class, 'exportExcel'])->name('monitors.export.excel');
+    Route::get('monitors/export/pdf', [App\Http\Controllers\Export\MonitorExportController::class, 'exportPdf'])->name('monitors.export.pdf');
 
     Route::get('computers/export/excel', [\App\Http\Controllers\Export\ComputerExportController::class, 'exportExcel'])->name('computers.export.excel');
     Route::get('computers/export/pdf', [\App\Http\Controllers\Export\ComputerExportController::class, 'exportPdf'])->name('computers.export.pdf');
