@@ -27,9 +27,24 @@ class MonitorController extends Controller
         $this->brand = $brand;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.inventory.monitors.index',  ['datas' => $this->monitor->getAllData()]);
+        // 1. Mulai query
+        $query = $this->monitor->with('getDeviceBrands', 'region');
+
+        // 2. Periksa parameter 'kd_region' dari URL
+        if ($request->filled('kd_region')) {
+            
+            // 3. Filter berdasarkan kolom 'kd_region' dengan nilai dari request
+            $query->where('kd_region', $request->kd_region);
+        }
+
+        // 4. Ambil data
+        $datas = $query->get();
+        $regions = $this->region->getAllData();
+
+        // 5. Kirim ke view
+        return view('admin.inventory.monitors.index', compact('datas', 'regions'));
     }
 
     /**
