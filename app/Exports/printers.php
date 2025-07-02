@@ -30,7 +30,7 @@ class printers implements FromView
         ->when($this->status !== null, function ($query) {
             $query->where('ownership_status', $this->status);
         })
-        ->get(); 
+        ->get();
 
         return view('admin.report.xls.printers', [
             'datas' => $results,

@@ -24,9 +24,26 @@ class PrinterController extends Controller
         $this->brand = $brand;
     }
 
+    // public function index()
+    // {
+    //     return view('admin.inventory.printers.index',  ['datas' => $this->printer->getAllData()]);
+    // }
     public function index()
     {
-        return view('admin.inventory.printers.index',  ['datas' => $this->printer->getAllData()]);
+        $kd_region = request()->query('kd_region');
+
+        $query = $this->printer->with(['getDeviceBrands', 'getUnits', 'getVendor', 'region'])->latest();
+
+        if ($kd_region) {
+            $query->where('kd_region', $kd_region);
+        }
+
+        $datas = $query->get();
+
+        return view('admin.inventory.printers.index', [
+            'datas' => $datas,
+            'regions' => $this->region->getAllData()
+        ]);
     }
 
     public function create()
