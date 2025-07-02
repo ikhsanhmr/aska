@@ -45,6 +45,7 @@ use App\Models\Admin\Inventory\MotorDinas;
 use App\Models\Admin\Inventory\Television;
 use App\Models\Admin\MasterData\PopIconPlus;
 use App\Http\Controllers\Export\LaptopExportController;
+use App\Http\Controllers\Export\HandphoneExportController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -188,7 +189,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('printers/export/excel', [\App\Http\Controllers\Export\PrinterExportController::class, 'exportExcel'])->name('printers.export.excel');
     Route::get('printers/export/pdf', [\App\Http\Controllers\Export\PrinterExportController::class, 'exportPdf'])->name('printers.export.pdf');
 
-
+    Route::get('handphone/export/excel', [HandphoneExportController::class, 'exportExcel'])->name('handphone.export.excel');
+    Route::get('handphone/export/pdf', [HandphoneExportController::class, 'exportPdf'])->name('handphone.export.pdf');
 });
 
 // =============

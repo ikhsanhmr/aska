@@ -23,9 +23,29 @@ class HandphoneController extends Controller
         $this->brand = $brand;
     }
 
-    function index() {
-        return view('admin.inventory.handphone.index', ['datas' => $this->handphone->getAllData()]);
+    public function index(Request $request)
+    {
+        // 1. Mulai query
+        $query = $this->handphone->with('brand', 'region');
+
+        // 2. Periksa parameter 'kd_region' dari URL
+        if ($request->filled('kd_region')) {
+            
+            // 3. Filter berdasarkan kolom 'kd_region' dengan nilai dari request
+            $query->where('kd_region', $request->kd_region);
+        }
+
+        // 4. Ambil data
+        $datas = $query->get();
+        $regions = $this->region->getAllData();
+
+        // 5. Kirim ke view
+        return view('admin.inventory.handphone.index', compact('datas', 'regions'));
     }
+
+    // function index() {
+    //     return view('admin.inventory.handphone.index', ['datas' => $this->handphone->getAllData()]);
+    // }
 
     public function create()
     {
