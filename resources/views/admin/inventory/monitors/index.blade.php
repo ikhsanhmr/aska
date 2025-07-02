@@ -38,11 +38,11 @@
             <div class="card-body">
                 <h6 class="card-title">Filter Data Monitor</h6>
                 {{-- FORM UNTUK FILTER --}}
-                <form action="{{ route('laptops.index') }}" method="GET">
+                <form action="{{ route('monitors.index') }}" method="GET">
                     <div class="row">
                         <div class="col-md-5">
                             <div class="mb-3">
-                                <label for="kd_region" class="form-label">Kantor Induk</label>
+                                <label for="kd_region" class="form-label"></label>
                                 {{-- 1. Ubah 'name' dan 'id' menjadi 'kd_region' --}}
                                 <select class="form-select select2" name="kd_region" id="kd_region">
                                     <option value="">-- Tampilkan Semua --</option>
