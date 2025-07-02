@@ -185,6 +185,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('computers/export/excel', [\App\Http\Controllers\Export\ComputerExportController::class, 'exportExcel'])->name('computers.export.excel');
     Route::get('computers/export/pdf', [\App\Http\Controllers\Export\ComputerExportController::class, 'exportPdf'])->name('computers.export.pdf');
 
+    Route::get('printers/export/excel', [\App\Http\Controllers\Export\PrinterExportController::class, 'exportExcel'])->name('printers.export.excel');
+    Route::get('printers/export/pdf', [\App\Http\Controllers\Export\PrinterExportController::class, 'exportPdf'])->name('printers.export.pdf');
+
 
 });
 
