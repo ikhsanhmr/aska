@@ -21,9 +21,22 @@ class StarlinkController extends Controller
         $this->brand = $brand;
     }
 
-    function index()
+    public function index(Request $request)
     {
-        return view('admin.inventory.starlink.index', ['datas' => $this->starlink->getAllData()]);
+        $kd_region = $request->query('kd_region');
+        
+        $query = Starlink::with('region');
+
+        if ($kd_region) {
+            $query->where('kd_region', $kd_region);
+        }
+        
+        $datas = $query->latest()->get();
+        
+        // Ambil semua data region untuk dropdown filter
+        $regions = Region::all();
+
+        return view('admin.inventory.starlink.index', compact('datas', 'regions'));
     }
 
     public function create()
