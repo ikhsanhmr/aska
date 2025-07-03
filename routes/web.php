@@ -47,7 +47,7 @@ use App\Models\Admin\MasterData\PopIconPlus;
 use App\Http\Controllers\Export\LaptopExportController;
 use App\Http\Controllers\Export\HandphoneExportController;
 use App\Http\Controllers\Export\CctvExportController;
-
+use App\Http\Controllers\Export\StarlinkExportController;
 
 
 /*
@@ -199,8 +199,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/cctv/export/excel', [CctvExportController::class, 'exportExcel'])->name('cctv.export.excel');
     Route::get('/cctv/export/pdf', [CctvExportController::class, 'exportPdf'])->name('cctv.export.pdf');
 
+
     Route::get('access-point/export/excel', [\App\Http\Controllers\Export\AccessPointExportController::class, 'exportExcel'])->name('access-point.export.excel');
-    Route::get('access-point/export/pdf', [\App\Http\Controllers\Export\AccessPointExportController::class, 'exportPdf'])->name('access-point.export.pdf');
+
+    Route::get('/starlink/export/excel', [StarlinkExportController::class, 'exportExcel'])->name('starlink.export.excel');
+    Route::get('/starlink/export/pdf', [StarlinkExportController::class, 'exportPdf'])->name('starlink.export.pdf');
+
 
 
 });
