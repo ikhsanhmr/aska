@@ -48,7 +48,7 @@ use App\Http\Controllers\Export\LaptopExportController;
 use App\Http\Controllers\Export\HandphoneExportController;
 use App\Http\Controllers\Export\CctvExportController;
 use App\Http\Controllers\Export\StarlinkExportController;
-
+use App\Http\Controllers\Export\GedungExportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -205,6 +205,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/starlink/export/excel', [StarlinkExportController::class, 'exportExcel'])->name('starlink.export.excel');
     Route::get('/starlink/export/pdf', [StarlinkExportController::class, 'exportPdf'])->name('starlink.export.pdf');
 
+    Route::get('/gedung/export/excel', [GedungExportController::class, 'exportExcel'])->name('gedung.export.excel');
+    Route::get('/gedung/export/pdf', [GedungExportController::class, 'exportPdf'])->name('gedung.export.pdf');
 
 
 

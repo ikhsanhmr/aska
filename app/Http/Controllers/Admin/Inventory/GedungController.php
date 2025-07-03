@@ -23,9 +23,22 @@ class GedungController extends Controller
         $this->brand = $brand;
     }
 
-    function index()
+    public function index(Request $request)
     {
-        return view('admin.inventory.gedung.index', ['datas' => $this->gedung->getAllData()]);
+        $kd_region = $request->query('kd_region');
+        
+        $query = Gedung::with('region');
+
+        if ($kd_region) {
+            $query->where('kd_region', $kd_region);
+        }
+        
+        $datas = $query->latest()->get();
+        
+        // Ambil semua data region untuk dropdown filter
+        $regions = Region::all();
+
+        return view('admin.inventory.gedung.index', compact('datas', 'regions'));
     }
 
     public function create()
