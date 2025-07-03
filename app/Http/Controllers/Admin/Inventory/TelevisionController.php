@@ -10,6 +10,9 @@ use App\Models\Admin\MasterData\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\AllTelevisionsExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TelevisionController extends Controller
 {
@@ -23,9 +26,44 @@ class TelevisionController extends Controller
         $this->brand = $brand;
     }
 
-    function index()
+    function index(Request $request)
     {
-        return view('admin.inventory.television.index', ['datas' => $this->television->getAllData()]);
+        $query = $this->television->newQuery();
+
+        if ($request->filled('kd_region')) {
+            $query->where('kd_region', $request->kd_region);
+        }
+
+        $datas = $query->with('brand', 'region')->get();
+
+        return view('admin.inventory.television.index', [
+            'datas' => $datas,
+            'regions' => $this->region->getAllData()
+        ]);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $kd_region = $request->query('kd_region');
+        return Excel::download(new AllTelevisionsExport($kd_region), 'laporan_television.xlsx');
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $kd_region = $request->query('kd_region');
+
+        $query = $this->television->newQuery();
+
+        if ($kd_region) {
+            $query->where('kd_region', $kd_region);
+        }
+
+        $datas = $query->with('brand', 'region')->get();
+
+        $pdf = PDF::loadView('admin.inventory.television.pdf_view', compact('datas'));
+        $pdf->setPaper('a4', 'landscape');
+
+        return $pdf->download('laporan_television.pdf');
     }
 
     public function create()

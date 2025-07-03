@@ -106,6 +106,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('popicon', PopIconPlusController::class);
     Route::resource('handphone', HandphoneController::class);
     Route::resource('television', TelevisionController::class);
+    Route::get('television/export/excel', [TelevisionController::class, 'exportExcel'])->name('television.export.excel');
+    Route::get('television/export/pdf', [TelevisionController::class, 'exportPdf'])->name('television.export.pdf');
 Route::resource('mobil-dinas', MobilDinasController::class);
 Route::get('mobil-dinas/export/excel', [MobilDinasController::class, 'exportExcel'])->name('mobil-dinas.export.excel');
 Route::get('mobil-dinas/export/pdf', [MobilDinasController::class, 'exportPdf'])->name('mobil-dinas.export.pdf');
