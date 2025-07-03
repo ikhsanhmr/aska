@@ -9,6 +9,7 @@ use App\Models\Admin\MasterData\Unit;
 use App\Models\Admin\Inventory\NetworkDevice;
 use App\Models\Admin\MasterData\DeviceBrand;
 use App\Models\Admin\MasterData\Vendor;
+use App\Models\Admin\MasterData\Region; // <-- GUNAKAN BARIS INI
 
 class NetworkDeviceController extends Controller
 {
@@ -26,9 +27,24 @@ class NetworkDeviceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.inventory.network_device.index', ['datas' => $this->network_device->getAllData()]);
+        $kd_region = $request->query('kd_region');
+        
+        // Sesuaikan nama relasi dengan yang ada di model
+        $query = NetworkDevice::with('getDeviceBrands', 'getUnits', 'getVendor', 'region');
+
+        if ($kd_region) {
+            // Asumsi tabel network_device punya kolom kd_region
+            $query->where('kd_region', $kd_region);
+        }
+        
+        $datas = $query->latest()->get();
+        
+        // Ambil semua data region untuk dropdown filter
+        $regions = Region::all();
+
+        return view('admin.inventory.network_device.index', compact('datas', 'regions'));
     }
 
     /**

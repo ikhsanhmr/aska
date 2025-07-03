@@ -49,7 +49,7 @@ use App\Http\Controllers\Export\HandphoneExportController;
 use App\Http\Controllers\Export\CctvExportController;
 use App\Http\Controllers\Export\StarlinkExportController;
 use App\Http\Controllers\Export\GedungExportController;
-
+use App\Http\Controllers\Export\NetworkDeviceExportController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -216,7 +216,8 @@ Route::resource('access-point', AccessPointController::class);
     Route::get('/gedung/export/excel', [GedungExportController::class, 'exportExcel'])->name('gedung.export.excel');
     Route::get('/gedung/export/pdf', [GedungExportController::class, 'exportPdf'])->name('gedung.export.pdf');
 
-
+    Route::get('/network-devices/export/excel', [NetworkDeviceExportController::class, 'exportExcel'])->name('network-devices.export.excel');
+    Route::get('/network-devices/export/pdf', [NetworkDeviceExportController::class, 'exportPdf'])->name('network-devices.export.pdf');
 
 });
 
