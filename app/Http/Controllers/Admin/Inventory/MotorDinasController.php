@@ -10,6 +10,10 @@ use App\Models\Admin\MasterData\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\AllMotorDinasExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 class MotorDinasController extends Controller
 {
@@ -23,9 +27,41 @@ class MotorDinasController extends Controller
         $this->brand = $brand;
     }
 
-    function index()
+    function index(Request $request)
     {
-        return view('admin.inventory.motor-dinas.index', ['datas' => $this->motorDinas->getAllData()]);
+        $query = $this->motorDinas->newQuery();
+
+        if ($request->filled('kd_region')) {
+            $query->where('kd_region', $request->kd_region);
+        }
+
+        $datas = $query->with('brand', 'region')->get();
+
+        return view('admin.inventory.motor-dinas.index', ['datas' => $datas, 'regions' => $this->region->getAllData()]);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $kd_region = $request->query('kd_region');
+        return Excel::download(new AllMotorDinasExport($kd_region), 'laporan_motor_dinas.xlsx');
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $kd_region = $request->query('kd_region');
+
+        $query = $this->motorDinas->newQuery();
+
+        if ($kd_region) {
+            $query->where('kd_region', $kd_region);
+        }
+
+        $datas = $query->with('brand', 'region')->get();
+
+        $pdf = PDF::loadView('admin.inventory.motor-dinas.pdf_view', compact('datas'));
+        $pdf->setPaper('a4', 'landscape');
+
+        return $pdf->download('laporan_motor_dinas.pdf');
     }
 
     public function create()

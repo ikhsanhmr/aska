@@ -106,9 +106,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('popicon', PopIconPlusController::class);
     Route::resource('handphone', HandphoneController::class);
     Route::resource('television', TelevisionController::class);
-    Route::resource('mobil-dinas', MobilDinasController::class);
-    Route::resource('motor-dinas', MotorDinasController::class);
-    Route::resource('access-point', AccessPointController::class);
+Route::resource('mobil-dinas', MobilDinasController::class);
+Route::get('mobil-dinas/export/excel', [MobilDinasController::class, 'exportExcel'])->name('mobil-dinas.export.excel');
+Route::get('mobil-dinas/export/pdf', [MobilDinasController::class, 'exportPdf'])->name('mobil-dinas.export.pdf');
+
+Route::resource('motor-dinas', MotorDinasController::class);
+Route::get('motor-dinas/export/excel', [MotorDinasController::class, 'exportExcel'])->name('motor-dinas.export.excel');
+Route::get('motor-dinas/export/pdf', [MotorDinasController::class, 'exportPdf'])->name('motor-dinas.export.pdf');
+
+Route::resource('access-point', AccessPointController::class);
     Route::resource('cctv', CctvController::class);
     Route::resource('starlink', StarlinkController::class);
     Route::resource('gedung', GedungController::class);
