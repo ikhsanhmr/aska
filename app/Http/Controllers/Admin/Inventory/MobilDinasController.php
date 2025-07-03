@@ -10,6 +10,9 @@ use App\Models\Admin\MasterData\Region;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use App\Exports\AllMobilDinasExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class MobilDinasController extends Controller
 {
@@ -23,9 +26,41 @@ class MobilDinasController extends Controller
         $this->brand = $brand;
     }
 
-    function index()
+    public function index(Request $request)
     {
-        return view('admin.inventory.mobil-dinas.index', ['datas' => $this->mobilDinas->getAllData()]);
+        $query = $this->mobilDinas->newQuery();
+
+        if ($request->filled('kd_region')) {
+            $query->where('kd_region', $request->kd_region);
+        }
+
+        $datas = $query->with('brand', 'region')->get();
+
+        return view('admin.inventory.mobil-dinas.index', ['datas' => $datas, 'regions' => $this->region->getAllData()]);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $kd_region = $request->query('kd_region');
+        return Excel::download(new AllMobilDinasExport($kd_region), 'laporan_mobil_dinas.xlsx');
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $kd_region = $request->query('kd_region');
+
+        $query = $this->mobilDinas->newQuery();
+
+        if ($kd_region) {
+            $query->where('kd_region', $kd_region);
+        }
+
+        $datas = $query->with('brand', 'region')->get();
+
+        $pdf = PDF::loadView('admin.inventory.mobil-dinas.pdf_view', compact('datas'));
+        $pdf->setPaper('a4', 'landscape');
+
+        return $pdf->download('laporan_mobil_dinas.pdf');
     }
 
     public function create()

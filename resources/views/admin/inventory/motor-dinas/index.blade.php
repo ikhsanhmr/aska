@@ -16,18 +16,51 @@
     <div>
         <h4 class="mb-3 mb-md-0">Data motor Dinas</h4>
     </div>
-    <div class="d-flex align-items-center flex-wrap text-nowrap">
-        <a href="{{route('motor-dinas.create')}}" class="btn btn-info btn-icon-text mb-2 mb-md-0">
-            <i class="btn-icon-prepend" data-feather="plus"></i>
-            Tambah Data
-        </a>
-    </div>
+<div class="d-flex align-items-center flex-wrap text-nowrap">
+    <a href="{{route('motor-dinas.create')}}" class="btn btn-info btn-icon-text mb-2 mb-md-0 me-2">
+        <i class="btn-icon-prepend" data-feather="plus"></i>
+        Tambah Data
+    </a>
+    <a href="{{ route('motor-dinas.export.excel', request()->query()) }}" class="btn btn-success btn-icon-text mb-2 mb-md-0 me-2">
+        <i class="btn-icon-prepend" data-feather="file-text"></i>
+        Export Excel
+    </a>
+    <a href="{{ route('motor-dinas.export.pdf', request()->query()) }}" class="btn btn-danger btn-icon-text mb-2 mb-md-0">
+        <i class="btn-icon-prepend" data-feather="file"></i>
+        Export PDF
+    </a>
+</div>
 </div>
 @include('components.alert')
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
+                <h6 class="card-title">Filter Data Motor Dinas</h6>
+                <form action="{{ route('motor-dinas.index') }}" method="GET">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="mb-3">
+                                <label for="kd_region" class="form-label">Kantor Induk</label>
+                                <select class="form-select select2" name="kd_region" id="kd_region">
+                                    <option value="">-- Tampilkan Semua --</option>
+                                    @foreach ($regions as $region)
+                                        <option value="{{ $region->kd_region }}" {{ request('kd_region') == $region->kd_region ? 'selected' : '' }}>
+                                            {{ $region->nama_region }} ({{ $region->kd_region }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 align-self-end">
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                                <a href="{{ route('motor-dinas.index') }}" class="btn btn-secondary">Reset</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <hr>
                 <h6 class="card-title">Data motor Dinas</h6>
                 <div class="table-responsive">
                     <table id="dataTableExample" class="table">
