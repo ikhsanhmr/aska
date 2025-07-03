@@ -4,15 +4,23 @@ namespace App\Models\Admin\Inventory;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\MasterData\DeviceBrand;
+use App\Models\Admin\MasterData\Region;
 use App\Models\Admin\MasterData\Unit;
 use App\Models\Admin\MasterData\Vendor;
-use App\Models\Admin\MasterData\DeviceBrand;
 
 class NetworkDevice extends Model
 {
     use HasFactory;
+
+    /**
+     * Nama tabel yang terhubung dengan model ini.
+     */
+    protected $table = 'network_devices'; // PENTING!
+
     protected $guarded = ['id'];
 
+    // Relasi-relasi yang dibutuhkan
     public function getDeviceBrands()
     {
         return $this->belongsTo(DeviceBrand::class, 'brand_id', 'id');
@@ -22,15 +30,14 @@ class NetworkDevice extends Model
     {
         return $this->belongsTo(Unit::class, 'unit_id', 'id');
     }
+
     public function getVendor()
     {
         return $this->belongsTo(Vendor::class, 'vendor_id', 'id');
     }
 
-    public function getAllData()
+    public function region()
     {
-        return $this->with(['getDeviceBrands', 'getUnits', 'getVendor'])
-            ->latest()
-            ->get();
+        return $this->belongsTo(Region::class, 'kd_region', 'kd_region');
     }
 }
