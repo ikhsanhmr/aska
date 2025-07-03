@@ -46,6 +46,10 @@ use App\Models\Admin\Inventory\Television;
 use App\Models\Admin\MasterData\PopIconPlus;
 use App\Http\Controllers\Export\LaptopExportController;
 use App\Http\Controllers\Export\HandphoneExportController;
+use App\Http\Controllers\Export\CctvExportController;
+
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -191,6 +195,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('handphone/export/excel', [HandphoneExportController::class, 'exportExcel'])->name('handphone.export.excel');
     Route::get('handphone/export/pdf', [HandphoneExportController::class, 'exportPdf'])->name('handphone.export.pdf');
+
+    Route::get('/cctv/export/excel', [CctvExportController::class, 'exportExcel'])->name('cctv.export.excel');
+    Route::get('/cctv/export/pdf', [CctvExportController::class, 'exportPdf'])->name('cctv.export.pdf');
+
+
 });
 
 // =============

@@ -23,10 +23,23 @@ class CctvController extends Controller
         $this->brand = $brand;
     }
 
-    function index()
-    {
-        return view('admin.inventory.cctv.index', ['datas' => $this->cctv->getAllData()]);
+    public function index(Request $request)
+{
+    // BENAR: Panggil relasi 'brand' dan 'region' yang sesuai dengan definisi di model Cctv.php
+    // Relasi 'getVendor' dihapus karena CCTV tidak memilikinya.
+    $query = Cctv::with('brand', 'region');
+
+    if ($request->filled('kd_region')) {
+        $query->where('kd_region', $request->kd_region);
     }
+
+    $datas = $query->get();
+    
+    // Asumsi $this->region->getAllData() berfungsi, jika tidak, gunakan Region::all()
+    $regions = Region::all(); 
+
+    return view('admin.inventory.cctv.index', compact('datas', 'regions'));
+}
 
     public function create()
     {
