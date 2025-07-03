@@ -693,5 +693,37 @@ class UserSeeder extends Seeder
             "position"      => 'IT',
             "kd_region"     => '09',
         ]);
+        User::create([
+            "name"          => "Rahmatullah",
+            "nip"           => '10221027IT',
+            "username"      => '10221027IT',
+            "email"         => '10221027IT@gmail.com',
+            "password"      => bcrypt('10221027IT@tiger'),
+            "phone"         => "082250021234",
+            "address"       => "Balikpapan",
+            "role"          => "user",
+            "photo"         => NULL,
+            "birthplace"    => "Jakarta",
+            "birthdate"     => "1999-10-12",
+            "gender"        => "L",
+            "position"      => 'IT',
+            "kd_region"     => '09',
+        ]);
+        User::create([
+            "name"          => "Muhammad Syharil Faizal",
+            "nip"           => '10221035IT',
+            "username"      => '10221035IT',
+            "email"         => '10221035IT@gmail.com',
+            "password"      => bcrypt('10221035IT@tiger'),
+            "phone"         => "082250021234",
+            "address"       => "Balikpapan",
+            "role"          => "user",
+            "photo"         => NULL,
+            "birthplace"    => "Jakarta",
+            "birthdate"     => "1999-10-12",
+            "gender"        => "L",
+            "position"      => 'IT',
+            "kd_region"     => '09',
+        ]);
     }
 }
