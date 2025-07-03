@@ -12,6 +12,8 @@ class AllAccessPointsExport implements FromCollection, WithHeadings, WithMapping
 {
     protected $kd_region;
 
+
+
     /**
      * Terima kd_region dari controller. Dibuat opsional dengan default null.
      *

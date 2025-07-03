@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 use App\Models\Admin\Inventory\AccessPoint;
 
+
 class AccessPointExportController extends Controller
 {
     /**
