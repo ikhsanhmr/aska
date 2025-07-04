@@ -33,7 +33,7 @@
             NUSA DAYA EXCELLENCE TOOLS
           </div>
           <h1 class="text-gray-900 font-extrabold text-xl">
-            ASSET TRACKING PLATFORM
+            ASET KANTOR
           </h1>
         </div>
 
