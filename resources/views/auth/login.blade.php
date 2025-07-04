@@ -33,7 +33,7 @@
             NUSA DAYA EXCELLENCE TOOLS
           </div>
           <h1 class="text-gray-900 font-extrabold text-xl">
-            ASET KANTOR
+            ASKA
           </h1>
         </div>
 
