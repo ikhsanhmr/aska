@@ -132,7 +132,7 @@
                             <select id="select-region-ownership" name="ownership_status"
                                 class="form-select @error('ownership_status') is-invalid @enderror" data-width="100%">
                                 <option value="">-- Pilih Status --</option>
-                                <option value="Aset PLN">Aset PLN</option>
+                                <option value="Aset PLN">Aset PLN Nusa Daya</option>
                                 <option value="Sewa">Sewa</option>
                             </select>
                             @error('ownership_status')
