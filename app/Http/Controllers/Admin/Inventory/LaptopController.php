@@ -22,7 +22,7 @@ class LaptopController extends Controller
     private $brand;
     private $region;
     private $user;
-    public function __construct(Laptop $laptop, Vendor $vendor, Unit $unit, DeviceBrand $brand,Region $region,User $user)
+    public function __construct(Laptop $laptop, Vendor $vendor, Unit $unit, DeviceBrand $brand, Region $region, User $user)
     {
         $this->laptop  = $laptop;
         $this->vendor = $vendor;
@@ -30,7 +30,6 @@ class LaptopController extends Controller
         $this->brand = $brand;
         $this->region = $region;
         $this->user = $user;
-
     }
 
     public function index(Request $request)
@@ -40,13 +39,13 @@ class LaptopController extends Controller
 
         // 2. Periksa parameter 'kd_region' dari URL
         if ($request->filled('kd_region')) {
-            
+
             // 3. Filter berdasarkan kolom 'kd_region' dengan nilai dari request
             $query->where('kd_region', $request->kd_region);
         }
 
-        // 4. Ambil data
-        $datas = $query->get();
+        // 4. Ambil data terbaru duluan
+        $datas = $query->orderBy('created_at', 'desc')->get();
         $regions = $this->region->getAllData();
 
         // 5. Kirim ke view
@@ -75,38 +74,37 @@ class LaptopController extends Controller
         // dd($request->all());
         try {
             $data = $request->validated();
-            if($request->hasfile('bast')) {
-                $filename = round(microtime(true) * 1000).'-'.str_replace(' ','-',$request->file('bast')->getClientOriginalName());
+            if ($request->hasfile('bast')) {
+                $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('bast')->getClientOriginalName());
                 $file = $request->file('bast');
-                Storage::disk('local')->put('bast/laptops/'.$filename, File::get($file));
-                $data['bast']= $filename;
+                Storage::disk('local')->put('bast/laptops/' . $filename, File::get($file));
+                $data['bast'] = $filename;
             }
-            if($request->hasfile('bastp')) {
-                $filename = round(microtime(true) * 1000).'-'.str_replace(' ','-',$request->file('bastp')->getClientOriginalName());
+            if ($request->hasfile('bastp')) {
+                $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('bastp')->getClientOriginalName());
                 $file = $request->file('bastp');
-                Storage::disk('local')->put('bastp/laptops/'.$filename, File::get($file));
-                $data['bastp']= $filename;
+                Storage::disk('local')->put('bastp/laptops/' . $filename, File::get($file));
+                $data['bastp'] = $filename;
             }
-            if($request->hasfile('form_permintaan')) {
-                $filename = round(microtime(true) * 1000).'-'.str_replace(' ','-',$request->file('form_permintaan')->getClientOriginalName());
+            if ($request->hasfile('form_permintaan')) {
+                $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('form_permintaan')->getClientOriginalName());
                 $file = $request->file('form_permintaan');
-                Storage::disk('local')->put('form_permintaan/laptops/'.$filename, File::get($file));
-                $data['form_permintaan']= $filename;
+                Storage::disk('local')->put('form_permintaan/laptops/' . $filename, File::get($file));
+                $data['form_permintaan'] = $filename;
             }
-            if($request->hasfile('data_kontrak')) {
-                $filename = round(microtime(true) * 1000).'-'.str_replace(' ','-',$request->file('data_kontrak')->getClientOriginalName());
+            if ($request->hasfile('data_kontrak')) {
+                $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('data_kontrak')->getClientOriginalName());
                 $file = $request->file('data_kontrak');
-                Storage::disk('local')->put('data_kontrak/laptops/'.$filename, File::get($file));
-                $data['data_kontrak']= $filename;
+                Storage::disk('local')->put('data_kontrak/laptops/' . $filename, File::get($file));
+                $data['data_kontrak'] = $filename;
             }
-            if($request->hasfile('foto')) {
-                $filename = round(microtime(true) * 1000).'-'.str_replace(' ','-',$request->file('foto')->getClientOriginalName());
+            if ($request->hasfile('foto')) {
+                $filename = round(microtime(true) * 1000) . '-' . str_replace(' ', '-', $request->file('foto')->getClientOriginalName());
                 $file = $request->file('foto');
-                Storage::disk('local')->put('foto/laptops/'.$filename, File::get($file));
-                $data['foto']= $filename;
+                Storage::disk('local')->put('foto/laptops/' . $filename, File::get($file));
+                $data['foto'] = $filename;
             }
             $this->laptop->create($data);
-
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Gagal Tambah Data Laptop');
         }
@@ -124,7 +122,8 @@ class LaptopController extends Controller
     {
         return view('admin.inventory.laptops.edit', [
             'users' => $this->user->getAllData(),
-            'laptop' => $laptop,'vendors' => $this->vendor->getAllData(),
+            'laptop' => $laptop,
+            'vendors' => $this->vendor->getAllData(),
             'regions' => $this->region->getAllData(),
             'brands' => $this->brand->getBrandLaptops()
         ]);
@@ -196,7 +195,6 @@ class LaptopController extends Controller
                 $data['foto'] = $filename;
             }
             $laptop->update($data);
-
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Gagal Mengubah Data Laptop');
         }

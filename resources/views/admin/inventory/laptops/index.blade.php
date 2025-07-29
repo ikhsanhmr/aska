@@ -94,7 +94,7 @@
                             @foreach ($datas as $data)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $data->getDeviceBrands->name }}</td>
+                                    <td>{{ $data->getDeviceBrands?->name ?? 'Tidak ada' }}</td>
                                     <td>{{ $data->name }}</td>
                                     <td>{{ $data->spesification }}</td>
                                     <td>{{ $data->user_name }}</td>

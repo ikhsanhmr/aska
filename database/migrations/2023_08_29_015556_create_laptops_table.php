@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('laptops', function (Blueprint $table) {
             $table->id();
             $table->integer('brand_id')->nullable();
-            $table->string('name');
-            $table->string('serial_number');
+            $table->string('name')->nullable();
+            $table->string('serial_number')->nullable();
             $table->string('spesification')->nullable();
             $table->string('ip_address')->nullable();
             $table->string('user_name')->nullable();
