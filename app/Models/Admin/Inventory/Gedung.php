@@ -19,6 +19,6 @@ class Gedung extends Model
 
     public function region()
     {
-        return $this->belongsTo(Region::class, 'kd_region', 'kd_region');
+        return $this->belongsTo(Region::class, 'kd_up', 'kd_region');
     }
 }

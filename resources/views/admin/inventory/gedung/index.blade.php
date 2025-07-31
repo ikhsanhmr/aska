@@ -49,11 +49,11 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="mb-3">
-                                <label for="kd_region" class="form-label">Filter Berdasarkan Unit</label>
-                                <select class="form-select select2" name="kd_region" id="kd_region">
+                                <label for="kd_up" class="form-label">Filter Berdasarkan Unit Pelaksana (UP)</label>
+                                <select class="form-select select2" name="kd_up" id="kd_up">
                                     <option value="">-- Tampilkan Semua Unit --</option>
                                     @foreach ($regions as $region)
-                                        <option value="{{ $region->kd_region }}" {{ request('kd_region') == $region->kd_region ? 'selected' : '' }}>
+                                        <option value="{{ $region->kd_region }}" {{ request('kd_up') == $region->kd_region ? 'selected' : '' }}>
                                             {{ $region->nama_region }} ({{ $region->kd_region }})
                                         </option>
                                     @endforeach
@@ -75,11 +75,30 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama</th>
-                                <th>Alamat</th>
+                                <!-- <th>Nama</th> -->
+                                <th>Uraian</th>
+                                <!-- <th>Alamat</th> -->
+                                <th>UP</th>
                                 <th>Unit</th>
-                                <th>Status Asset</th>
-                                <th>Bast</th>
+                                <th>Pihak Pertama</th>
+                                <th>Pihak Kedua</th>
+                                <th>Alamat Kantor</th>
+                                <th>Luas Tanah (m2)</th>
+                                <th>Luas Bangunan (m2)</th>
+                                <th>Asuransi Y/N</th>
+                                <th>Status Sewa</th>
+                                <th>No. Sertifikat</th>
+                                <th>Nomor PJ</th>
+                                <th>Tanggal Input</th>
+                                <th>Periode Awal</th>
+                                <th>Periode Akhir</th>
+                                <th>Awal Sewa</th>
+                                <th>Akhir Sewa</th>
+                                <th>Tahun Sewa (Bulan)</th>
+                                <th>Nilai</th>
+                                <th>Keterangan</th>
+                                <th>Validasi</th>
+                                <th>BAST</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -87,10 +106,29 @@
                             @foreach ($datas as $data)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $data->nama }}</td>
-                                    <td>{{ $data->alamat }}</td>
+                                    <!-- <td>{{ $data->nama }}</td> -->
+                                    <td>{{ $data->uraian }}</td>
+                                    <!-- <td>{{ $data->alamat }}</td> -->
                                     <td>{{ $data->region->nama_region ?? 'Tidak ada' }}</td>
-                                    <td>{{ $data->status_asset }}</td>
+                                    <td>{{ $data->unit_manual }}</td>
+                                    <td>{{ $data->pihak_pertama }}</td>
+                                    <td>{{ $data->pihak_kedua }}</td>
+                                    <td>{{ $data->alamat_kantor }}</td>
+                                    <td>{{ $data->luas_tanah_m2 }}</td>
+                                    <td>{{ $data->luas_bangunan_m2 }}</td>
+                                    <td>{{ $data->asuransi_yn }}</td>
+                                    <td>{{ $data->status_sewa }}</td>
+                                    <td>{{ $data->no_sertifikat }}</td>
+                                    <td>{{ $data->nomor_pj }}</td>
+                                    <td>{{ $data->tanggal_input ? \Carbon\Carbon::parse($data->tanggal_input)->format('d/m/Y') : '-' }}</td>
+                                    <td>{{ $data->periode_awal ? \Carbon\Carbon::parse($data->periode_awal)->format('d/m/Y') : '-' }}</td>
+                                    <td>{{ $data->periode_akhir ? \Carbon\Carbon::parse($data->periode_akhir)->format('d/m/Y') : '-' }}</td>
+                                    <td>{{ $data->awal_sewa ? \Carbon\Carbon::parse($data->awal_sewa)->format('d/m/Y') : '-' }}</td>
+                                    <td>{{ $data->akhir_sewa ? \Carbon\Carbon::parse($data->akhir_sewa)->format('d/m/Y') : '-' }}</td>
+                                    <td>{{ $data->tahun_sewa }}</td>
+                                    <td>{{ number_format($data->nilai, 0, ',', '.') }}</td>
+                                    <td>{{ $data->keterangan }}</td>
+                                    <td>{{ $data->validasi }}</td>
                                     <td>
                                         @if(isset($data->bast))
                                             <a href="{{route('viewBastGedung',['id'=>$data->id])}}" class="btn btn-sm btn-success btn-icon">
@@ -107,7 +145,7 @@
                                         <form action="{{ route('gedung.destroy', ['gedung'=> $data]) }}" style='display:inline;' method="POST" class="me-2">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger btn-icon">
+                                            <button type="submit" class="btn btn-sm btn-danger btn-icon" onclick="return confirm('Are you sure you want to delete this item?');">
                                                 <i data-feather="trash"></i>
                                             </button>
                                         </form>

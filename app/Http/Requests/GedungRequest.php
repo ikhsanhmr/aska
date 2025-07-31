@@ -22,12 +22,31 @@ class GedungRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kd_region' => 'required',
-            'nama' => 'required',
-            'alamat' => 'required',
-            'status_asset' => 'required',
-            'bast' => 'sometimes|nullable',
-            'keterangan' => 'sometimes|nullable'
+            // 'nama' => 'nullable|string|max:255',
+            // 'alamat' => 'nullable|string',
+            'kd_up' => 'nullable|string|max:255', // Renamed from kd_region
+            'status_asset' => 'nullable|string|max:255',
+            'keterangan' => 'nullable|string',
+            'bast' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:2048', //for file upload
+            'uraian' => 'nullable|string',
+            'unit_manual' => 'nullable|string|max:255',
+            'pihak_pertama' => 'nullable|string|max:255',
+            'pihak_kedua' => 'nullable|string|max:255',
+            'alamat_kantor' => 'nullable|string',
+            'luas_tanah_m2' => 'nullable|numeric',
+            'luas_bangunan_m2' => 'nullable|numeric',
+            'asuransi_yn' => 'nullable|in:Y,N',
+            'status_sewa' => 'nullable|string|max:255',
+            'no_sertifikat' => 'nullable|string|max:255',
+            'nomor_pj' => 'nullable|string|max:255',
+            'tanggal_input' => 'nullable|date',
+            'periode_awal' => 'nullable|date',
+            'periode_akhir' => 'nullable|date|after_or_equal:periode_awal',
+            'awal_sewa' => 'nullable|date',
+            'akhir_sewa' => 'nullable|date|after_or_equal:awal_sewa',
+            'tahun_sewa' => 'nullable|integer',
+            'nilai' => 'nullable|numeric',
+            'validasi' => 'nullable|string|max:255',
         ];
     }
 }
